@@ -1,0 +1,37 @@
+// ==UserScript==
+// @name         Add AniSearch Link to aniworld.to
+// @namespace    http://tampermonkey.net/
+// @version      2024-12-19_1.0
+// @description  Fügt unter Titel einen Link zu AniSearch hinzu.
+// @author       T-Schindelar
+// @match        https://aniworld.to/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    const titleElement = document.querySelector(".series-title");
+
+    if (titleElement) {
+        const linkContainer = document.createElement("div");
+        linkContainer.style.display = "inline-block";
+        linkContainer.style.marginBottom = "8px";
+        linkContainer.style.padding = "2px 4px";
+        linkContainer.style.backgroundColor = "#f9e6cc";
+        linkContainer.style.borderRadius = "4px";
+
+        const animeTitle = titleElement.querySelector("h1").textContent.trim();
+        const link = document.createElement("a");
+        link.href = `https://www.anisearch.de/search?q=${encodeURIComponent(animeTitle)}`;
+        link.textContent = "AniSearch";
+        link.target = "_blank";
+        link.style.color = "#000000"; // Schwarzer Text
+        link.style.fontWeight = "bold"; // Fett
+        link.style.textDecoration = "none";
+        link.style.fontSize = "13px";
+
+        linkContainer.appendChild(link);
+        titleElement.after(linkContainer);
+    }
+})();
